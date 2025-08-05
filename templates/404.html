@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - ClosetVerse{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center">
+            <div class="error-page">
+                <div class="error-icon mb-4">
+                    <i class="bi bi-exclamation-triangle display-1 text-warning"></i>
+                </div>
+                <h1 class="display-4 fw-bold mb-3">404</h1>
+                <h2 class="h4 mb-3">Lost in the Universe</h2>
+                <p class="lead text-muted mb-4">
+                    Sorry, this page seems to have drifted into another dimension of the ClosetVerse.
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="{% url 'store:home' %}" class="btn btn-primary">
+                        <i class="bi bi-house me-2"></i>Return Home
+                    </a>
+                    <a href="{% url 'store:product_list' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-grid me-2"></i>Browse Universe
+                    </a>
+                </div>
+                
+                <div class="mt-5">
+                    <h5 class="mb-3">Explore Our Universe</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        {% for category in categories %}
+                        <a href="{% url 'store:category_products' category.slug %}" 
+                           class="btn btn-outline-secondary btn-sm">
+                            {{ category.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

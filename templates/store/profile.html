@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Profile - ClosetVerse{% endblock %}
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="mb-3"><i class="bi bi-person-circle me-2"></i>Your Profile</h3>
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </div>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="mb-3"><i class="bi bi-bag-check me-2"></i>Your Orders</h4>
+                    {% if orders %}
+                        <div class="accordion" id="ordersAccordion">
+                            {% for order in orders %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                            Order #{{ order.id }} - {{ order.created_at|date:'M d, Y H:i' }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#ordersAccordion">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                {% for item in order.items.all %}
+                                                    <li>
+                                                        <strong>{{ item.product.name }}</strong> (x{{ item.quantity }}) - ₹{{ item.get_total_price }}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                            <p><strong>Total:</strong> ₹{{ order.total_price }}</p>
+                                            <p><strong>Status:</strong> {{ order.status }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>No orders found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

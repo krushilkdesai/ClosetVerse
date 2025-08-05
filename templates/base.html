@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ClosetVerse - Fashion Store{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% block extra_css %}
+
+{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand font-display" href="{% url 'store:home' %}">
+                CLOSETVERSE
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store:product_list' %}">Collection</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header font-display">Shop by Style</h6></li>
+                            <li><a class="dropdown-item" href="{% url 'store:product_list' %}">
+                                <i class="bi bi-grid me-2"></i>All Items
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'store:category_products' category.slug %}">
+                                {% if category.slug == 'mens-clothing' %}
+                                    <i class="bi bi-person me-2"></i>
+                                {% elif category.slug == 'womens-clothing' %}
+                                    <i class="bi bi-person-dress me-2"></i>
+                                {% elif category.slug == 'accessories' %}
+                                    <i class="bi bi-bag me-2"></i>
+                                {% elif category.slug == 'shoes' %}
+                                    <i class="bi bi-shoe me-2"></i>
+                                {% elif category.slug == 'new-arrivals' %}
+                                    <i class="bi bi-star me-2"></i>
+                                {% else %}
+                                    <i class="bi bi-tag me-2"></i>
+                                {% endif %}
+                                {{ category.name }}
+                            </a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store:about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store:contact' %}">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <div class="theme-toggle me-3" onclick="toggleTheme()"></div>
+                    <a href="{% url 'store:wishlist' %}" class="btn btn-outline-primary btn-sm me-2">
+                        <i class="bi bi-heart me-1"></i>Wishlist
+                    </a>
+                    <a href="{% url 'store:cart' %}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-bag me-1"></i>Cart 
+                        <span class="badge bg-primary ms-1" id="cart-count">{{ cart_count|default:0 }}</span>
+                    </a>
+                    {% if user.is_authenticated %}
+                        <div class="dropdown ms-3">
+                            <a href="#" class="btn btn-outline-secondary btn-sm dropdown-toggle d-flex align-items-center" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0.25rem 0.75rem;">
+                                <i class="bi bi-person-circle fs-5"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="{% url 'store:profile' %}"><i class="bi bi-person me-2"></i>Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'store:logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <button type="button" class="btn btn-outline-primary btn-gradient ms-2" data-bs-toggle="modal" data-bs-target="#authModal">
+                            Login 
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto font-display">ClosetVerse</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toast-message">
+                <!-- Message will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal fade auth-modal" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title" id="authModalLabel">Welcome</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-tab-pane" type="button" role="tab" aria-controls="login-tab-pane" aria-selected="true">Login</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-tab-pane" type="button" role="tab" aria-controls="signup-tab-pane" aria-selected="false">Sign Up</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="authTabContent">
+              <div class="tab-pane fade show active" id="login-tab-pane" role="tabpanel" aria-labelledby="login-tab" tabindex="0">
+                {% include 'store/_auth_login_form.html' %}
+              </div>
+              <div class="tab-pane fade" id="signup-tab-pane" role="tabpanel" aria-labelledby="signup-tab" tabindex="0">
+                {% include 'store/_auth_register_form.html' %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="text-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="font-display mb-3">CLOSETVERSE</h5>
+                    <p class="opacity-75">Your universe of fashion - curating timeless elegance through exceptional pieces that define your unique style and sophistication.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="font-display mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'store:home' %}">Home</a></li>
+                        <li class="mb-2"><a href="{% url 'store:product_list' %}">Collection</a></li>
+                        <li class="mb-2"><a href="{% url 'store:about' %}">About</a></li>
+                        <li class="mb-2"><a href="{% url 'store:contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="font-display mb-3">Collections</h6>
+                    <ul class="list-unstyled">
+                        {% for category in categories %}
+                        <li class="mb-2">
+                            <a href="{% url 'store:category_products' category.slug %}">{{ category.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 opacity-25">
+            <div class="text-center">
+                <p class="mb-0 opacity-75">&copy; 2024 ClosetVerse. Your Fashion Universe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get CSRF token
+        function getCSRFToken() {
+            return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const toastHeader = toast.querySelector('.toast-header');
+            
+            toastMessage.textContent = message;
+            
+            // Add appropriate styling based on type
+            if (type === 'success') {
+                toastHeader.className = 'toast-header bg-success text-white';
+            } else if (type === 'error') {
+                toastHeader.className = 'toast-header bg-danger text-white';
+            }
+            
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+        }
+
+        // Update cart count in navbar
+        function updateCartCount(count) {
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = count;
+            }
+        }
+
+        // Add to cart function
+        function addToCart(productId, quantity = 1, size = '') {
+            const formData = new FormData();
+            formData.append('product_id', productId);
+            formData.append('quantity', quantity);
+            formData.append('size', size);
+            formData.append('csrfmiddlewaretoken', getCSRFToken());
+            
+            fetch('/add-to-cart/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    updateCartCount(data.cart_count);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error adding item to cart. Please try again.', 'error');
+            });
+        }
+
+        // Add to wishlist function
+        function addToWishlist(productId) {
+            const formData = new FormData();
+            formData.append('product_id', productId);
+            formData.append('csrfmiddlewaretoken', getCSRFToken());
+            
+            fetch('/add-to-wishlist/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    
+                    // Update wishlist button appearance
+                    const wishlistBtn = document.querySelector(`[data-product-id="${productId}"][data-action="wishlist"]`);
+                    if (wishlistBtn) {
+                        const icon = wishlistBtn.querySelector('i');
+                        if (data.action === 'added') {
+                            icon.className = 'bi bi-heart-fill me-1';
+                            wishlistBtn.classList.remove('btn-outline-primary');
+                            wishlistBtn.classList.add('btn-primary');
+                        } else {
+                            icon.className = 'bi bi-heart me-1';
+                            wishlistBtn.classList.remove('btn-primary');
+                            wishlistBtn.classList.add('btn-outline-primary');
+                        }
+                    }
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error updating wishlist. Please try again.', 'error');
+            });
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme and initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Navbar scroll effect
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add event listeners for cart and wishlist buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-action="cart"]')) {
+                    e.preventDefault();
+                    const button = e.target.closest('[data-action="cart"]');
+                    const productId = button.getAttribute('data-product-id');
+                    const quantity = button.getAttribute('data-quantity') || 1;
+                    const size = button.getAttribute('data-size') || '';
+                    addToCart(productId, quantity, size);
+                }
+                
+                if (e.target.closest('[data-action="wishlist"]')) {
+                    e.preventDefault();
+                    const button = e.target.closest('[data-action="wishlist"]');
+                    const productId = button.getAttribute('data-product-id');
+                    addToWishlist(productId);
+                }
+            });
+        });
+    </script>
+
+
+</body>
+</html>

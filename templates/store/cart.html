@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart - ClosetVerse{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="font-display mb-4">Shopping Cart</h1>
+            
+            {% if cart.items.all %}
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="cart-items">
+                        {% for item in cart.items.all %}
+                        <div class="cart-item card mb-3" data-item-id="{{ item.id }}">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2">
+                                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100&h=100&fit=crop&q=80" 
+                                             alt="{{ item.product.name }}" class="img-fluid rounded">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="font-display">{{ item.product.name }}</h6>
+                                        <small class="text-muted">{{ item.product.category.name }}</small>
+                                        {% if item.size %}
+                                        <br><small class="text-muted">Size: {{ item.size }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="fw-bold">₹ {{ item.product.price|floatformat:0 }}</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'-1' }})">-</button>
+                                            <input type="number" class="form-control form-control-sm text-center" value="{{ item.quantity }}" min="1" readonly>
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'1' }})">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <span class="fw-bold item-total">₹{{ item.get_total_price|floatformat:0 }}</span>
+                                        <br>
+                                        <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeItem({{ item.id }})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="cart-summary card">
+                        <div class="card-header">
+                            <h5 class="font-display mb-0">Order Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <span id="cart-subtotal">₹ {{ cart.total_price|floatformat:0 }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <span>Free</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Total:</strong>
+                                <strong id="cart-total">₹ {{ cart.total_price|floatformat:0 }}</strong>
+                            </div>
+                            <!-- <button class="btn btn-primary w-100 mb-2">Proceed to Checkout</button> -->
+                            <a href="{% url 'store:checkout' %}" class="btn btn-primary w-100 mb-2">Proceed to Checkout</a>
+                            <a href="{% url 'store:product_list' %}" class="btn btn-outline-primary w-100">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-bag-x display-1 text-muted mb-3"></i>
+                <h4 class="text-muted">Your cart is empty</h4>
+                <p class="text-muted">Start exploring the ClosetVerse to add items to your cart.</p>
+                <a href="{% url 'store:product_list' %}" class="btn btn-primary">Start Shopping</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function updateQuantity(itemId, newQuantity) {
+    if (newQuantity < 1) {
+        removeItem(itemId);
+        return;
+    }
+    
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+        showToast('Security error. Please refresh the page.', 'error');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('item_id', itemId);
+    formData.append('quantity', newQuantity);
+    formData.append('csrfmiddlewaretoken', csrfToken);
+    
+    fetch('/update-cart-item/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Update the quantity input
+            const cartItem = document.querySelector(`[data-item-id="${itemId}"]`);
+            const quantityInput = cartItem.querySelector('input[type="number"]');
+            quantityInput.value = newQuantity;
+            
+            // Update item total
+            const itemTotal = cartItem.querySelector('.item-total');
+            itemTotal.textContent = `₹${Math.round(data.item_total)}`;
+            
+            // Update cart totals
+            document.getElementById('cart-subtotal').textContent = `₹${Math.round(data.cart_total)}`;
+            document.getElementById('cart-total').textContent = `₹${Math.round(data.cart_total)}`;
+            
+            // Update navbar cart count
+            updateCartCount(data.cart_count);
+        } else {
+            showToast(data.message || 'Error updating cart. Please try again.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error updating cart. Please try again.', 'error');
+    });
+}
+
+function removeItem(itemId) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+        showToast('Security error. Please refresh the page.', 'error');
+        return;
+    }
+    
+    console.log('Removing item:', itemId);
+    
+    // Use FormData instead of JSON
+    const formData = new FormData();
+    formData.append('item_id', itemId);
+    formData.append('csrfmiddlewaretoken', csrfToken);
+    
+    fetch('/remove-from-cart/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        if (data.success) {
+            // Remove the item from DOM
+            const cartItem = document.querySelector(`[data-item-id="${itemId}"]`);
+            if (cartItem) {
+                cartItem.remove();
+                
+                // Update cart totals
+                document.getElementById('cart-subtotal').textContent = `₹${Math.round(data.cart_total)}`;
+                document.getElementById('cart-total').textContent = `₹${Math.round(data.cart_total)}`;
+                
+                // Update navbar cart count
+                updateCartCount(data.cart_count);
+                
+                // Show empty cart message if no items left
+                if (data.cart_count === 0) {
+                    location.reload();
+                }
+                
+                showToast(data.message, 'success');
+            } else {
+                console.error('Cart item element not found');
+            }
+        } else {
+            showToast(data.message || 'Error removing item. Please try again.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error removing item. Please try again.', 'error');
+    });
+}
+</script>
+{% endblock %}

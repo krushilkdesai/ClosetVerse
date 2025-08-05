@@ -1,0 +1,21 @@
+<form method="post" action="{% url 'store:login' %}" novalidate>
+    {% csrf_token %}
+    {% if login_form.non_field_errors %}
+        <div class="form-errors">{{ login_form.non_field_errors }}</div>
+    {% endif %}
+    <div class="mb-3">
+        <label for="id_login_username" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" id="id_login_username" required value="{{ login_form.username.value|default_if_none:'' }}">
+        {% if login_form.username.errors %}
+            <div class="form-errors">{{ login_form.username.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="id_login_password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="id_login_password" required>
+        {% if login_form.password.errors %}
+            <div class="form-errors">{{ login_form.password.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-gradient w-100">Login</button>
+</form>

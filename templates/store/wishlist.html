@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Wishlist - ClosetVerse{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="font-display mb-4">My Wishlist</h1>
+            
+            {% if wishlist.items.all %}
+            <div class="row g-4">
+                {% for item in wishlist.items.all %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&q=80" 
+                                 alt="{{ item.product.name }}" class="product-image">
+                            
+                            <div class="product-overlay">
+                                <div class="text-center">
+                                    <a href="{{ item.product.get_absolute_url }}" class="btn btn-primary mb-2">
+                                        View Details
+                                    </a>
+                                    <br>
+                                    <button class="btn btn-outline-primary btn-sm" 
+                                            data-action="cart" 
+                                            data-product-id="{{ item.product.id }}">
+                                        <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <small class="text-muted text-uppercase">{{ item.product.category.name }}</small>
+                            <h6 class="product-title mt-2">
+                                <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                            </h6>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="price-current">₹{{ item.product.price|floatformat:0 }}</span>
+                                <button class="btn btn-sm btn-outline-danger" 
+                                        data-action="wishlist" 
+                                        data-product-id="{{ item.product.id }}">
+                                    <i class="bi bi-heart-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-heart display-1 text-muted mb-3"></i>
+                <h4 class="text-muted">Your wishlist is empty</h4>
+                <p class="text-muted">Save items you love from the ClosetVerse to your wishlist.</p>
+                <a href="{% url 'store:product_list' %}" class="btn btn-primary">Start Shopping</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+<form method="post" action="{% url 'store:register' %}" novalidate>
+    {% csrf_token %}
+    {% if register_form.non_field_errors %}
+        <div class="form-errors">{{ register_form.non_field_errors }}</div>
+    {% endif %}
+    <div class="mb-3">
+        <label for="id_register_username" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" id="id_register_username" required value="{{ register_form.username.value|default_if_none:'' }}">
+        {% if register_form.username.errors %}
+            <div class="form-errors">{{ register_form.username.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="id_register_email" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" id="id_register_email" required value="{{ register_form.email.value|default_if_none:'' }}">
+        {% if register_form.email.errors %}
+            <div class="form-errors">{{ register_form.email.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="id_register_password1" class="form-label">Password</label>
+        <input type="password" name="password1" class="form-control" id="id_register_password1" required>
+        {% if register_form.password1.errors %}
+            <div class="form-errors">{{ register_form.password1.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="id_register_password2" class="form-label">Confirm Password</label>
+        <input type="password" name="password2" class="form-control" id="id_register_password2" required>
+        {% if register_form.password2.errors %}
+            <div class="form-errors">{{ register_form.password2.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-gradient w-100">Sign Up</button>
+</form>

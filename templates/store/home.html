@@ -1,0 +1,225 @@
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block title %}ClosetVerse - Your Fashion Universe{% endblock %}
+
+    {% block content %}
+
+    <div class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title font-display">
+                            Your Fashion
+                            <span class="text-gradient">Universe</span>
+                            <br>Awaits
+                        </h1>
+                        <p class="hero-subtitle">
+                            Welcome to ClosetVerse - where style meets infinity. Discover our curated collection of premium fashion pieces that transcend trends and define your unique universe.
+                        </p>
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="{% url 'store:product_list' %}" class="btn btn-primary hover-lift">
+                                Explore Universe
+                            </a>
+                            <a href="{% url 'store:about' %}" class="btn btn-outline-primary hover-lift">
+                                Our Story
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=700&fit=crop&q=80" 
+                            alt="ClosetVerse Fashion Collection" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="py-5 my-5">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <h2 class="section-title font-display">Featured Universe</h2>
+                <p class="section-subtitle">Handpicked pieces from across the fashion cosmos</p>
+            </div>
+            
+            <div class="row g-4">
+                {% for product in featured_products %}
+                <div class="col-lg-4 col-md-6 animate-on-scroll">
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            {% if product.slug == 'classic-business-suit' %}
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'denim-jacket' %}
+                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'elegant-evening-dress' %}
+                                <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'professional-blazer' %}
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'designer-leather-handbag' %}
+                                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'silk-scarf-collection' %}
+                                <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'premium-leather-boots' %}
+                                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'elegant-high-heels' %}
+                                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% endif %}
+                            
+                            <div class="product-badges">
+                                {% if product.featured %}
+                                <span class="badge bg-warning">Featured</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="product-overlay">
+                                <div class="text-center">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary mb-2">
+                                        View Details
+                                    </a>
+                                    <br>
+                                    <button class="btn btn-outline-primary btn-sm" 
+                                            data-action="cart" 
+                                            data-product-id="{{ product.id }}">
+                                        <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <small class="text-muted text-uppercase font-weight-bold">{{ product.category.name }}</small>
+                            <h5 class="product-title mt-2">
+                                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                            </h5>
+                            <p class="product-description">{{ product.description|truncatewords:15 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-current">₹{{ product.price|floatformat:0 }}</span>
+                                <div class="text-warning">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center animate-on-scroll">
+                    <p class="lead text-muted">Our featured collection is being curated. Check back soon.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section class="py-5 my-5" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <h2 class="section-title font-display">New Arrivals</h2>
+                <p class="section-subtitle">Fresh additions to your fashion universe</p>
+            </div>
+            
+            <div class="row g-4">
+                {% for product in new_arrivals %}
+                <div class="col-lg-3 col-md-6 animate-on-scroll">
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            {% if product.slug == 'limited-edition-sneakers' %}
+                                <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=300&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'designer-crossbody-bag' %}
+                                <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'sustainable-cotton-tshirt' %}
+                                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% elif product.slug == 'modern-minimalist-watch' %}
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&q=80" alt="{{ product.name }}" class="product-image">
+                            {% endif %}
+                            
+                            <div class="product-badges">
+                                <span class="badge bg-success">New</span>
+                            </div>
+                            
+                            <div class="product-overlay">
+                                <div class="text-center">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary mb-2">
+                                        Discover
+                                    </a>
+                                    <br>
+                                    <button class="btn btn-outline-primary btn-sm" 
+                                            data-action="wishlist" 
+                                            data-product-id="{{ product.id }}">
+                                        <i class="bi bi-heart me-1"></i>Wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <small class="text-muted text-uppercase">{{ product.category.name }}</small>
+                            <h6 class="product-title mt-2">
+                                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                            </h6>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="price-current">₹{{ product.price|floatformat:0 }}</span>
+                                <small class="text-muted">Just In</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center animate-on-scroll">
+                    <p class="lead text-muted">New arrivals coming soon.</p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="text-center mt-5 animate-on-scroll">
+                <a href="{% url 'store:category_products' 'new-arrivals' %}" class="btn btn-outline-primary hover-lift">
+                    View All New Arrivals
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 my-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4 animate-on-scroll">
+                    <div class="feature-box">
+                        <div class="feature-icon">🚚</div>
+                        <h5 class="font-display">Free Shipping</h5>
+                        <p class="text-muted">Free delivery across India on orders over ₹8,000</p>
+                    </div>
+                </div>
+                <div class="col-md-4 animate-on-scroll">
+                    <div class="feature-box">
+                        <div class="feature-icon">↩️</div>
+                        <h5 class="font-display">Easy Returns</h5>
+                        <p class="text-muted">30-day hassle-free return policy</p>
+                    </div>
+                </div>
+                <div class="col-md-4 animate-on-scroll">
+                    <div class="feature-box">
+                        <div class="feature-icon">⭐</div>
+                        <h5 class="font-display">Premium Quality</h5>
+                        <p class="text-muted">Curated pieces from the fashion universe</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    {% endblock %}

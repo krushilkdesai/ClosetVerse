@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - ClosetVerse{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 120px;">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'store:category_products' product.category.slug %}">{{ product.category.name }}</a></li>
+            <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row g-5">
+        <div class="col-lg-6">
+            <div class="product-image-detail">
+                {% if product.slug == 'classic-business-suit' %}
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'casual-cotton-polo' %}
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'denim-jacket' %}
+                    <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'oxford-dress-shirt' %}
+                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'casual-chinos' %}
+                    <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'elegant-evening-dress' %}
+                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'casual-summer-blouse' %}
+                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'professional-blazer' %}
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'midi-wrap-dress' %}
+                    <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'silk-scarf-blouse' %}
+                    <img src="https://images.unsplash.com/photo-1551048632-6d0b6c317e96?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'designer-leather-handbag' %}
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'classic-wristwatch' %}
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'silk-scarf-collection' %}
+                    <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'leather-belt' %}
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'pearl-necklace' %}
+                    <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'premium-leather-boots' %}
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'athletic-running-shoes' %}
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'elegant-high-heels' %}
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'casual-sneakers' %}
+                    <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'oxford-dress-shoes' %}
+                    <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'limited-edition-sneakers' %}
+                    <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'designer-crossbody-bag' %}
+                    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'sustainable-cotton-tshirt' %}
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'trendy-sunglasses' %}
+                    <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% elif product.slug == 'modern-minimalist-watch' %}
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="product-info">
+                <div class="d-flex align-items-center mb-2">
+                    <h1 class="display-5 fw-bold mb-0 me-3 font-display">{{ product.name }}</h1>
+                    {% if product.is_new_arrival %}
+                    <span class="badge bg-success">New Arrival</span>
+                    {% endif %}
+                    {% if product.featured %}
+                    <span class="badge bg-warning ms-2">Featured</span>
+                    {% endif %}
+                </div>
+                <p class="text-muted mb-3">
+                    <a href="{% url 'store:category_products' product.category.slug %}" class="text-decoration-none">
+                        <i class="bi bi-tag me-1"></i>{{ product.category.name }}
+                    </a>
+                </p>
+                <div class="price-section mb-4">
+                    <span class="price-large fw-bold text-primary font-display" style="font-size: 2.5rem;">₹{{ product.price|floatformat:0 }}</span>
+                    <div class="text-warning mt-2">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <small class="text-muted ms-2">(4.5/5 - 127 reviews)</small>
+                    </div>
+                </div>
+                
+                <div class="product-description mb-4">
+                    <h5 class="font-display">Description</h5>
+                    <p class="lead">{{ product.description }}</p>
+                </div>
+                
+                <!-- {% if product.get_sizes_list %}
+                <div class="sizes-section mb-4">
+                    <h5 class="font-display">Available Sizes</h5>
+                    <div class="size-options">
+                        {% for size in product.get_sizes_list %}
+                        <button class="btn btn-outline-secondary me-2 mb-2 size-btn" data-size="{{ size }}">{{ size }}</button>
+                        {% endfor %}
+                    </div>
+                    <small class="text-muted">Please select a size</small>
+                </div>
+                {% endif %}
+                 -->
+                <div class="quantity-section mb-4">
+                    <h5 class="font-display">Quantity</h5>
+                    <div class="input-group" style="width: 150px;">
+                        <button class="btn btn-outline-secondary" type="button" id="decreaseQty">-</button>
+                        <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="10">
+                        <button class="btn btn-outline-secondary" type="button" id="increaseQty">+</button>
+                    </div>
+                </div>
+                
+                <div class="product-actions mb-4">
+                    <button class="btn btn-primary btn-lg me-3 px-4 py-3" 
+                            data-action="cart" 
+                            data-product-id="{{ product.id }}" 
+                            id="addToCartBtn">
+                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                    </button>
+                    <button class="btn btn-outline-secondary btn-lg px-4 py-3" 
+                            data-action="wishlist" 
+                            data-product-id="{{ product.id }}">
+                        <i class="bi bi-heart me-2"></i>Add to Wishlist
+                    </button>
+                </div>
+                
+                <div class="product-features">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="bi bi-truck text-success me-2"></i>
+                                <strong>Free Shipping</strong>
+                                <small class="d-block text-muted">On orders over ₹8,000</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="bi bi-arrow-return-left text-info me-2"></i>
+                                <strong>Easy Returns</strong>
+                                <small class="d-block text-muted">30-day return policy</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="bi bi-shield-check text-primary me-2"></i>
+                                <strong>Secure Payment</strong>
+                                <small class="d-block text-muted">SSL encrypted checkout</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="bi bi-headset text-warning me-2"></i>
+                                <strong>Customer Support</strong>
+                                <small class="d-block text-muted">24/7 assistance</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-stock mt-4">
+                    {% if product.stock_quantity > 10 %}
+                    <span class="badge bg-success">✓ In Stock ({{ product.stock_quantity }} available)</span>
+                    {% elif product.stock_quantity > 0 %}
+                    <span class="badge bg-warning">⚠ Only {{ product.stock_quantity }} left in stock</span>
+                    {% else %}
+                    <span class="badge bg-danger">✗ Out of Stock</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Product Details Tabs -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
+                        Product Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">
+                        Shipping & Returns
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
+                        Reviews (127)
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="productTabsContent">
+                <div class="tab-pane fade show active" id="details" role="tabpanel">
+                    <div class="p-4">
+                        <h5 class="font-display">Product Information</h5>
+                        <p>{{ product.description }}</p>
+                        <ul class="list-unstyled">
+                            <li><strong>Category:</strong> {{ product.category.name }}</li>
+                            <li><strong>Available Sizes:</strong> {{ product.sizes }}</li>
+                            <li><strong>Material:</strong> Premium quality fabric</li>
+                            <li><strong>Care Instructions:</strong> Machine wash cold, hang dry</li>
+                            <li><strong>SKU:</strong> {{ product.slug|upper }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="shipping" role="tabpanel">
+                    <div class="p-4">
+                        <h5 class="font-display">Shipping Information</h5>
+                        <ul class="list-unstyled">
+                            <li>• Free standard shipping on orders over ₹8,000</li>
+                            <li>• Express shipping available for ₹1,200</li>
+                            <li>• Pan-India shipping available</li>
+                            <li>• Orders processed within 1-2 business days</li>
+                        </ul>
+                        <h5 class="font-display mt-4">Return Policy</h5>
+                        <ul class="list-unstyled">
+                            <li>• 30-day return window</li>
+                            <li>• Items must be in original condition</li>
+                            <li>• Free return shipping</li>
+                            <li>• Refunds processed within 5-7 business days</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="reviews" role="tabpanel">
+                    <div class="p-4">
+                        <h5 class="font-display">Customer Reviews</h5>
+                        <div class="review-summary mb-4">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <div class="display-4 fw-bold">4.5</div>
+                                        <div class="text-warning">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+                                        </div>
+                                        <small class="text-muted">Based on 127 reviews</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="review-bars">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <span class="me-2">5★</span>
+                                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" style="width: 70%"></div>
+                                            </div>
+                                            <small>70%</small>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <span class="me-2">4★</span>
+                                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" style="width: 20%"></div>
+                                            </div>
+                                            <small>20%</small>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <span class="me-2">3★</span>
+                                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" style="width: 7%"></div>
+                                            </div>
+                                            <small>7%</small>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <span class="me-2">2★</span>
+                                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" style="width: 2%"></div>
+                                            </div>
+                                            <small>2%</small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2">1★</span>
+                                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" style="width: 1%"></div>
+                                            </div>
+                                            <small>1%</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sample Reviews -->
+                        <div class="review-item border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <strong>Sarah M.</strong>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+                                <small class="text-muted">2 days ago</small>
+                            </div>
+                            <p>"Absolutely love this piece! The quality is exceptional and the fit is perfect. ClosetVerse never disappoints!"</p>
+                        </div>
+                        
+                        <div class="review-item border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <strong>Michael R.</strong>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
+                                    </div>
+                                </div>
+                                <small class="text-muted">1 week ago</small>
+                            </div>
+                            <p>"Great quality and fast shipping. The item looks exactly as pictured. Very satisfied with my ClosetVerse purchase."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Products -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="mb-4 font-display">You May Also Like</h3>
+            <div class="row g-4">
+                {% for related_product in product.category.products.all|slice:":4" %}
+                {% if related_product != product %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card h-100">
+                        <div class="product-image-container">
+                            {% if related_product.slug == 'classic-business-suit' %}
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
+                            {% elif related_product.slug == 'casual-cotton-polo' %}
+                                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
+                            {% elif related_product.slug == 'denim-jacket' %}
+                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
+                            {% elif related_product.slug == 'elegant-evening-dress' %}
+                                <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
+                            {% elif related_product.slug == 'professional-blazer' %}
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
+                            {% endif %}
+                            <div class="product-overlay">
+                                <a href="{{ related_product.get_absolute_url }}" class="btn btn-outline-light">View Details</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">{{ related_product.name }}</h6>
+                            <span class="price fw-bold">₹{{ related_product.price|floatformat:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let selectedSize = '';
+    
+    // Size selection
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all size buttons
+            document.querySelectorAll('.size-btn').forEach(b => {
+                b.classList.remove('btn-primary');
+                b.classList.add('btn-outline-secondary');
+            });
+            
+            // Add active class to clicked button
+            this.classList.remove('btn-outline-secondary');
+            this.classList.add('btn-primary');
+            
+            selectedSize = this.getAttribute('data-size');
+        });
+    });
+    
+    // Quantity controls
+    document.getElementById('decreaseQty').addEventListener('click', function() {
+        const qtyInput = document.getElementById('quantity');
+        const currentQty = parseInt(qtyInput.value);
+        if (currentQty > 1) {
+            qtyInput.value = currentQty - 1;
+        }
+    });
+    
+    document.getElementById('increaseQty').addEventListener('click', function() {
+        const qtyInput = document.getElementById('quantity');
+        const currentQty = parseInt(qtyInput.value);
+        if (currentQty < 10) {
+            qtyInput.value = currentQty + 1;
+        }
+    });
+    
+    // Add to cart with size and quantity
+    document.getElementById('addToCartBtn').addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        const quantity = document.getElementById('quantity').value;
+        const hasSizes = document.querySelectorAll('.size-btn').length > 0;
+        
+        // Check if size is required but not selected
+        if (hasSizes && !selectedSize) {
+            showToast('Please select a size before adding to cart.', 'error');
+            return;
+        }
+        
+        // Add to cart with selected options
+        addToCart(productId, quantity, selectedSize);
+    });
+});
+</script>
+{% endblock %}

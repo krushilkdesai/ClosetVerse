@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Success - ClosetVerse{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="text-center mb-4">
+        <h1 class="text-success">Thank you for your order!</h1>
+        <p class="lead">Your order has been placed successfully.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <h4>Order Summary</h4>
+            <ul class="list-group mb-3">
+                {% for item in order.items %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">{{ item.name }} (x{{ item.quantity }})</h6>
+                        <small class="text-muted">Size: {{ item.size }}</small>
+                    </div>
+                    <span class="text-muted">₹{{ item.total|floatformat:0 }}</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (INR)</span>
+                    <strong>₹{{ order.total_price|floatformat:0 }}</strong>
+                </li>
+            </ul>
+            <h5>Shipping Information</h5>
+            <p><strong>Name:</strong> {{ order.full_name }}</p>
+            <p><strong>Address:</strong> {{ order.address }}, {{ order.city }}, {{ order.postal_code }}</p>
+            <p><strong>Phone:</strong> {{ order.phone }}</p>
+            <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+        </div>
+        <div class="col-md-5">
+            <h4>Order Roadmap</h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item text-success"><strong>Order Placed</strong> <span class="float-end">Today</span></li>
+                <li class="list-group-item">Processing <span class="float-end">1-2 days</span></li>
+                <li class="list-group-item">Shipped <span class="float-end">2-4 days</span></li>
+                <li class="list-group-item">Out for Delivery <span class="float-end">4-6 days</span></li>
+                <li class="list-group-item">Delivered <span class="float-end">5-7 days</span></li>
+            </ul>
+            <div class="alert alert-info mt-3">
+                You will receive updates as your order progresses!
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

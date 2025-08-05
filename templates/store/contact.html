@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - ClosetVerse{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h1 class="font-display" style="font-size: 4rem; font-weight: 700;">Connect with ClosetVerse</h1>
+                <p class="lead text-muted">Reach out to us across the fashion universe</p>
+            </div>
+            
+            <div class="row g-5">
+                <div class="col-md-6 animate-on-scroll">
+                    <div class="contact-info">
+                        <h4 class="font-display mb-4">Get in Touch</h4>
+                        
+                        <div class="contact-item mb-4 p-4 rounded-3" style="background: var(--bg-secondary);">
+                            <div class="d-flex align-items-center">
+                                <div class="contact-icon me-4">
+                                    <span style="font-size: 2rem;">📍</span>
+                                </div>
+                                <div>
+                                    <strong class="font-display">ClosetVerse HQ</strong>
+                                    <p class="mb-0 text-muted">123 Fashion Galaxy<br>Mumbai, Maharashtra 400001</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item mb-4 p-4 rounded-3" style="background: var(--bg-secondary);">
+                            <div class="d-flex align-items-center">
+                                <div class="contact-icon me-4">
+                                    <span style="font-size: 2rem;">📞</span>
+                                </div>
+                                <div>
+                                    <strong class="font-display">Phone</strong>
+                                    <p class="mb-0 text-muted">+91 98765 43210</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item mb-4 p-4 rounded-3" style="background: var(--bg-secondary);">
+                            <div class="d-flex align-items-center">
+                                <div class="contact-icon me-4">
+                                    <span style="font-size: 2rem;">✉️</span>
+                                </div>
+                                <div>
+                                    <strong class="font-display">Email</strong>
+                                    <p class="mb-0 text-muted">hello@closetverse.in</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item p-4 rounded-3" style="background: var(--bg-secondary);">
+                            <div class="d-flex align-items-center">
+                                <div class="contact-icon me-4">
+                                    <span style="font-size: 2rem;">🕒</span>
+                                </div>
+                                <div>
+                                    <strong class="font-display">Universe Hours</strong>
+                                    <p class="mb-0 text-muted">Monday-Saturday: 10AM-8PM<br>Sunday: 12PM-6PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 animate-on-scroll">
+                    <div class="contact-form glass p-4 rounded-3">
+                        <h4 class="font-display mb-4">Send us a Message</h4>
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="form-label font-display">Name</label>
+                                <input type="text" class="form-control" id="name" required style="border-radius: 15px; padding: 1rem;">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="form-label font-display">Email</label>
+                                <input type="email" class="form-control" id="email" required style="border-radius: 15px; padding: 1rem;">
+                            </div>
+                            <div class="mb-4">
+                                <label for="subject" class="form-label font-display">Subject</label>
+                                <input type="text" class="form-control" id="subject" required style="border-radius: 15px; padding: 1rem;">
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label font-display">Message</label>
+                                <textarea class="form-control" id="message" rows="5" required style="border-radius: 15px; padding: 1rem;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 hover-lift">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
