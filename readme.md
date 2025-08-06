@@ -8,8 +8,8 @@ venv\Scripts\activate
 pip install -r requirements.txt
 
 # 4. Apply database migrations
-python manage.py makemigrations
-python manage.py migrate
+* python manage.py makemigrations
+* python manage.py migrate
 
 # 5. Run the development server
 python manage.py runserver
@@ -18,8 +18,7 @@ python manage.py runserver
 * admin
 * admin123
 
-# user name : 
-roy1
-# password:
-admin@roy
+# user name and password : 
+* roy1
+* admin@roy
 
