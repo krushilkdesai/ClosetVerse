@@ -904,31 +904,12 @@ html {
 
 
 
-.btn-gradient {
-    background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
-    color: #fff !important;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    padding: 0.4rem 1.2rem;
-    box-shadow: 0 2px 8px rgba(123,47,242,0.08);
-    transition: background 0.2s, box-shadow 0.2s;
-}
-.btn-gradient:hover, .btn-gradient:focus {
-    background: linear-gradient(90deg, #f357a8 0%, #7b2ff2 100%);
-    color: #fff !important;
-    box-shadow: 0 4px 16px rgba(243,87,168,0.12);
-    text-decoration: none;
-}
+
 .auth-modal .modal-content {
     border-radius: 1rem;
     box-shadow: 0 4px 32px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
 }
-.auth-modal .nav-tabs .nav-link.active {
-    background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
-    color: #fff !important;
-    border: none;
-}
+
 .auth-modal .nav-tabs .nav-link {
     color: #7b2ff2;
     border-radius: 0.5rem 0.5rem 0 0;
