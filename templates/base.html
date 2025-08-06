@@ -101,7 +101,7 @@
     </nav>
 
     <!-- Toast Container -->
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
         <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto font-display">ClosetVerse</strong>
@@ -352,7 +352,15 @@
                     addToWishlist(productId);
                 }
             });
-        });
+            // ✅ Show Django messages using toast
+            {% if messages %}
+                {% for message in messages %}
+                    showToast("{{ message|escapejs }}", "{{ message.tags }}");
+                {% endfor %}
+            {% endif %}
+            });
+
+        
     </script>
 
 

@@ -368,31 +368,46 @@ def order_success(request):
         return redirect('store:product_list')
     return render(request, 'store/order_success.html', {'order': order_summary})
 
-def register_view(request):
-    if request.user.is_authenticated:
-        return redirect('store:home')
-    register_form = UserRegistrationForm(request.POST or None)
-    login_form = AuthenticationForm()
-    if request.method == 'POST' and 'username' in request.POST and 'password1' in request.POST:
-        if register_form.is_valid():
-            user = register_form.save()
-            login(request, user)
-            return redirect('store:home')
-    context = {'register_form': register_form, 'login_form': login_form}
-    return render(request, 'base.html', context)
-
-
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('store:home')
-    login_form = AuthenticationForm(request, data=request.POST or None)
-    register_form = UserRegistrationForm()
-    if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
+
+    if request.method == 'POST':
+        login_form = AuthenticationForm(request, data=request.POST)
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
             return redirect('store:home')
-    context = {'login_form': login_form, 'register_form': register_form}
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('store:login')  # 👈 Redirect back to login page
+    else:
+        login_form = AuthenticationForm()
+        register_form = UserRegistrationForm()
+
+    context = {
+        'login_form': login_form,
+        'register_form': register_form,
+    }
+    return redirect('store:home')
+
+
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('store:home')
+
+    register_form = UserRegistrationForm(request.POST or None)
+    login_form = AuthenticationForm()
+
+    if request.method == 'POST':
+        if register_form.is_valid():
+            user = register_form.save()
+            login(request, user)
+            return redirect('store:home')
+        else:
+            messages.error(request, "Please fix the errors in the form.")  # ✅ Show error popup
+
+    context = {'register_form': register_form, 'login_form': login_form}
     return render(request, 'base.html', context)
 
 
