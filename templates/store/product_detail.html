@@ -34,7 +34,7 @@
                 {% elif product.slug == 'midi-wrap-dress' %}
                     <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
                 {% elif product.slug == 'silk-scarf-blouse' %}
-                    <img src="https://images.unsplash.com/photo-1551048632-6d0b6c317e96?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
+                    <img src="https://images.unsplash.com/photo-1677478863154-55ecce8c7536?q=80&w=687&auto=format&fit=crop" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
                 {% elif product.slug == 'designer-leather-handbag' %}
                     <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=700&fit=crop&q=80" alt="{{ product.name }}" class="img-fluid rounded-3 shadow">
                 {% elif product.slug == 'classic-wristwatch' %}
@@ -338,44 +338,8 @@
         </div>
     </div>
     
-    <!-- Related Products -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h3 class="mb-4 font-display">You May Also Like</h3>
-            <div class="row g-4">
-                {% for related_product in product.category.products.all|slice:":4" %}
-                {% if related_product != product %}
-                <div class="col-lg-3 col-md-6">
-                    <div class="product-card h-100">
-                        <div class="product-image-container">
-                            {% if related_product.slug == 'classic-business-suit' %}
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
-                            {% elif related_product.slug == 'casual-cotton-polo' %}
-                                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
-                            {% elif related_product.slug == 'denim-jacket' %}
-                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
-                            {% elif related_product.slug == 'elegant-evening-dress' %}
-                                <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
-                            {% elif related_product.slug == 'professional-blazer' %}
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
-                            {% else %}
-                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&q=80" alt="{{ related_product.name }}" class="product-image">
-                            {% endif %}
-                            <div class="product-overlay">
-                                <a href="{{ related_product.get_absolute_url }}" class="btn btn-outline-light">View Details</a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-title">{{ related_product.name }}</h6>
-                            <span class="price fw-bold">₹{{ related_product.price|floatformat:0 }}</span>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+    
+
 </div>
 
 <script>

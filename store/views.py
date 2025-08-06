@@ -122,6 +122,7 @@ def get_or_create_wishlist(request):
     return wishlist
 
 @require_POST
+@login_required
 def add_to_cart(request):
     """Add product to cart via AJAX"""
     try:
